@@ -3,6 +3,8 @@ package com.startup.service;
 import com.startup.dao.UserDao;
 import com.startup.model.User;
 
+import java.util.List;
+
 public class UserService {
     private UserDao userDao = new UserDao();
 
@@ -28,5 +30,9 @@ public class UserService {
 
     public boolean deleteUserById(int userId) {
         return userDao.deleteUser(userId);
+    }
+
+    public List<User> getAllUsers() {
+        return userDao.obtenerUsuariosExistentes();
     }
 }

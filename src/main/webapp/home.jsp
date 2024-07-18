@@ -1,3 +1,5 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.startup.model.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,13 +12,12 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header>
-    <jsp:include page="assets/html/header.jsp"/>
+    <%@ include file="assets/html/header.jsp" %>
 </header>
 <main class="flex-grow-1 my-5 py-5">
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-3">
-                <!-- Sidebar -->
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
                     <a href="#" class="list-group-item list-group-item-action">Profile</a>
@@ -25,10 +26,8 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <!-- Dashboard Content -->
                 <h1>Dashboard</h1>
                 <p>Welcome to your dashboard, <%= session.getAttribute("name") %>. Here you can manage your account and settings.</p>
-                <!-- Example Cards -->
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card">
@@ -58,12 +57,41 @@
                         </div>
                     </div>
                 </div>
+
+                <% if (session.getAttribute("role") != null && session.getAttribute("role").equals("Admin")) { %>
+                <div class="mt-5">
+                    <h2>Users List</h2>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nick</th>
+                            <th>Email</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% List<User> users = (List<User>) request.getAttribute("users"); %>
+                        <% for (User user : users) { %>
+                        <tr>
+                            <td><%= user.getId() %></td>
+                            <td><%= user.getNick() %></td>
+                            <td><%= user.getEmail() %></td>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <% } else { %>
+                <div class="alert alert-danger mt-5" role="alert">
+                    Insufficient permissions to view user data.
+                </div>
+                <% } %>
             </div>
         </div>
     </div>
 </main>
 <footer class="mt-auto">
-    <jsp:include page="assets/html/footer.html"/>
+    <%@ include file="assets/html/footer.html" %>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/scripts.js"></script>

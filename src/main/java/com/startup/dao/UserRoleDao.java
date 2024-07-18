@@ -19,4 +19,25 @@ public class UserRoleDao {
             return false;
         }
     }
+
+    public String obtenerRoleUsuario(int id) {
+        String roleName = null;
+        String sql = "SELECT r.nombre FROM roles r INNER JOIN roles_usuarios ru ON ru.rol_id = r.id WHERE ru.usuario_id = ?";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    roleName = rs.getString("nombre");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return roleName;
+    }
 }

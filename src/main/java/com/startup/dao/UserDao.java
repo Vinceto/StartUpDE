@@ -1,9 +1,12 @@
 package com.startup.dao;
 
+import com.startup.model.Address;
 import com.startup.model.User;
 import com.startup.util.DatabaseUtil;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDao {
     public int saveUser(User user) {
@@ -77,4 +80,29 @@ public class UserDao {
         }
         return false;
     }
+
+    public List<User> obtenerUsuariosExistentes() {
+        List<User> usuarios = new ArrayList<>();
+        String sql = "SELECT * FROM usuarios";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                User usuario = new User();
+                usuario.setId(rs.getInt("id"));
+                usuario.setEmail(rs.getString("correo"));
+                usuario.setNick(rs.getString("nick"));
+                usuario.setName(rs.getString("nombre"));
+                usuario.setPassword(rs.getString("password"));
+                usuario.setWeight(rs.getInt("peso"));
+                usuario.setCreatedAt(rs.getDate("created_at"));
+                usuario.setUpdatedAt(rs.getDate("updated_at"));
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
+
 }

@@ -20,7 +20,7 @@
                     <a class="nav-link" href="login.jsp">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="register.jsp">Registrarse</a>
+                    <a class="nav-link" href="RegisterServlet?action=register">Registrarse</a>
                 </li>
                 <% } %>
             </ul>
