@@ -43,4 +43,17 @@ public class AddressDao {
         }
         return addresses;
     }
+
+    public boolean deleteAddressByUserId(int userId) {
+        String sql = "DELETE FROM direcciones WHERE usuario_id = ?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -13,7 +13,7 @@
                     <a class="nav-link" href="#">Welcome, <%= email %></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.jsp">Logout</a>
+                    <a class="nav-link" href="LogoutServlet">Logout</a>
                 </li>
                 <% } else { %>
                 <li class="nav-item">

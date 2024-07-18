@@ -2,6 +2,8 @@ package com.startup.dao;
 import com.startup.model.Role;
 import com.startup.util.DatabaseUtil;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoleDao {
     public boolean saveRole(Role role) {
@@ -34,4 +36,32 @@ public class RoleDao {
         }
         return null;
     }
+
+    public List<Role> getAllRoles() {
+        List<Role> roles = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseUtil.getConnection();
+            String sql = "SELECT * FROM roles";
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("nombre");
+                Role role = new Role(id, name);
+                roles.add(role);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseUtil.close(resultSet, statement, connection);
+        }
+        System.out.println("roles > " +roles);
+        return roles;
+    }
+
 }

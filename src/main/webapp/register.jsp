@@ -1,3 +1,5 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.startup.model.Role" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,8 +17,6 @@
 <main class="flex-grow-1 d-flex flex-column justify-content-center align-items-center my-5 py-5">
     <div class="container">
         <h2 class="text-center">Register</h2>
-
-        <%-- Mostrar mensaje de error si existe --%>
         <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
         <% if (errorMessage != null) { %>
         <div class="alert alert-danger" role="alert">
@@ -56,9 +56,13 @@
             <div class="mb-3">
                 <label for="rolId" class="form-label">Role</label>
                 <select class="form-select" id="rolId" name="rolId" required>
-                    <option value="1">Admin</option>
-                    <option value="2">User</option>
-                    <!-- Add more roles as needed -->
+                    <option value="">Seleccione Rol</option>
+                    <% List<Role> roles = (List<Role>) request.getAttribute("roles");
+                        if (roles != null) {
+                            for (Role role : roles) { %>
+                    <option value="<%= role.getId() %>"><%= role.getName() %></option>
+                    <%      }
+                    } %>
                 </select>
             </div>
             <div class="d-grid">

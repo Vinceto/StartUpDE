@@ -1,11 +1,13 @@
 package com.startup.dao;
+
 import com.startup.model.User;
 import com.startup.util.DatabaseUtil;
+
 import java.sql.*;
 
 public class UserDao {
-    public boolean saveUser(User user) {
-        String sql = "INSERT INTO usuarios (correo, nick, nombre, password, peso, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public int saveUser(User user) {
+        String sql = "INSERT INTO usuarios (correo, nick, nombre, password, peso, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, user.getEmail());
@@ -15,12 +17,14 @@ public class UserDao {
             stmt.setInt(5, user.getWeight());
             stmt.setDate(6, new java.sql.Date(user.getCreatedAt().getTime()));
             stmt.setDate(7, new java.sql.Date(user.getUpdatedAt().getTime()));
-            stmt.executeUpdate();
-            return true;
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return -1;
     }
 
     public User findUserByEmail(String email) {
@@ -55,6 +59,19 @@ public class UserDao {
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteUser(int userId) {
+        String sql = "DELETE FROM usuarios WHERE id = ?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }

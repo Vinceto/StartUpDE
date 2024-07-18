@@ -17,7 +17,7 @@
         <h1 class="mt-5">Welcome to Startup Project</h1>
         <div class="d-grid gap-2 col-6 mx-auto mt-4">
             <a class="btn btn-primary" href="login.jsp">Login</a>
-            <a class="btn btn-secondary" href="register.jsp">Register</a>
+            <a class="btn btn-secondary" href="RegisterServlet?action=register">Register</a>
         </div>
     </div>
 </main>

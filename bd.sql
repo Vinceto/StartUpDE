@@ -29,3 +29,6 @@ CREATE TABLE roles_usuarios (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
     FOREIGN KEY (rol_id) REFERENCES roles(id)
 );
+
+-- Insertar roles en la tabla roles
+INSERT INTO roles (nombre) VALUES ('Admin'), ('User'), ('Manager'), ('Supervisor'), ('Developer'), ('Analyst');

@@ -6,7 +6,7 @@ import com.startup.model.User;
 public class UserService {
     private UserDao userDao = new UserDao();
 
-    public boolean registerUser(User user) {
+    public int registerUser(User user) {
         return userDao.saveUser(user);
     }
 
@@ -24,5 +24,9 @@ public class UserService {
             return user.getName();
         }
         return null;
+    }
+
+    public boolean deleteUserById(int userId) {
+        return userDao.deleteUser(userId);
     }
 }
