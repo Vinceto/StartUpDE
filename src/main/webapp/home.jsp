@@ -83,7 +83,7 @@
                 </div>
                 <% } else { %>
                 <div class="alert alert-danger mt-5" role="alert">
-                    Insufficient permissions to view user data.
+                    No tienes permisos para ver la lista de usuarios.
                 </div>
                 <% } %>
             </div>
